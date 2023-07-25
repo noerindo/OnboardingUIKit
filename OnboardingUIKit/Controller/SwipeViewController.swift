@@ -31,7 +31,7 @@ class SwipeViewController: UICollectionViewController, UICollectionViewDelegateF
     private var indicatorLeadingConstraint: NSLayoutConstraint!
     private var selectedCellIndex = 0
     private let bottomStackView = UIStackView()
-    private let bottomBtnStackView = UIStackView()
+//    private let bottomBtnStackView = UIStackView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,9 +56,9 @@ class SwipeViewController: UICollectionViewController, UICollectionViewDelegateF
         // Update the indicator colors based on the selected cell index
                updateIndicatorColors(for: indexPath.item)
         if indexPath.item == 2 {
-            nextButton.isHidden = true
+            skipButton.isHidden = true
         } else {
-            nextButton.isHidden = false
+            skipButton.isHidden = false
         }
         return cell
     }
@@ -88,13 +88,8 @@ class SwipeViewController: UICollectionViewController, UICollectionViewDelegateF
         }
     }
     
-    
-    
     @objc func skipButtonDidTap() {
-        //        let prevIndex = max(pageControl.currentPage - 1, 0)
-        //        let indexPath = IndexPath(item: prevIndex, section: 0)
-        //        pageControl.set_view(indexPath, current: <#T##Int#>, current_color: <#T##UIColor#>, disable_color: <#T##UIColor?#>)
-        //        collectionView?.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+
     }
     
     @objc func nextButtonDidTap() {
@@ -122,7 +117,6 @@ class SwipeViewController: UICollectionViewController, UICollectionViewDelegateF
             pageControl.append(line)
             
             pageControl[0].frame = CGRect(x: 0, y: 0, width: 100, height: 5)
-            pageControl[lineIndex].backgroundColor = .gray
             pageControl[lineIndex].translatesAutoresizingMaskIntoConstraints = false
             pageControl[lineIndex].layer.cornerRadius = 4.0
             NSLayoutConstraint.activate([
@@ -147,6 +141,8 @@ class SwipeViewController: UICollectionViewController, UICollectionViewDelegateF
         skipButton.setTitleColor(.systemGray, for: .normal)
         skipButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
         skipButton.addTarget(self, action: #selector(skipButtonDidTap), for: .touchUpInside)
+        skipButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(skipButton)
         
         nextButton.setTitle("Next →", for: .normal)
         nextButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
@@ -154,20 +150,21 @@ class SwipeViewController: UICollectionViewController, UICollectionViewDelegateF
         nextButton.backgroundColor = .black
         nextButton.layer.cornerRadius = 15
         nextButton.addTarget(self, action: #selector(nextButtonDidTap), for: .touchUpInside)
-        
-        bottomBtnStackView.addArrangedSubview(skipButton)
-        bottomBtnStackView.addArrangedSubview(nextButton)
-        
-        bottomBtnStackView.axis = .horizontal
-               bottomBtnStackView.distribution = .fillEqually
-               bottomBtnStackView.translatesAutoresizingMaskIntoConstraints = false
-               
-               view.addSubview(bottomBtnStackView)
-        
+        nextButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(nextButton)
+//        bottomBtnStackView.addArrangedSubview(skipButton)
+//        bottomBtnStackView.addArrangedSubview(nextButton)
+//
+//        bottomBtnStackView.axis = .horizontal
+//               bottomBtnStackView.distribution = .fillEqually
+//               bottomBtnStackView.translatesAutoresizingMaskIntoConstraints = false
+//
+//               view.addSubview(bottomBtnStackView)
     }
     
-        
     func configureViewController() {
+        let safeArea = view.safeAreaInsets
+        
         view.addSubview(collectionView)
         collectionView.isPagingEnabled = true
         collectionView.delegate = self
@@ -179,10 +176,18 @@ class SwipeViewController: UICollectionViewController, UICollectionViewDelegateF
         configureBtnBottomStackView()
         
         NSLayoutConstraint.activate([
-            bottomBtnStackView.heightAnchor.constraint(equalToConstant: 40),
-                    bottomBtnStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                    bottomBtnStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-                    bottomBtnStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            skipButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30 - safeArea.bottom),
+            skipButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 41),
+            
+            nextButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30 - safeArea.bottom),
+            nextButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -41),
+            nextButton.widthAnchor.constraint(equalToConstant: 100),
+            nextButton.heightAnchor.constraint(equalToConstant: 40)
+//            bottomBtnStackView.heightAnchor.constraint(equalToConstant: 40),
+//                    bottomBtnStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//                    bottomBtnStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+//                    bottomBtnStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+          
         ])
     }
     
