@@ -66,6 +66,7 @@
                         <constraints>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="xcN-o4-Bge" secondAttribute="trailing" constant="139" id="98E-t9-BLt"/>
                             <constraint firstItem="xcN-o4-Bge" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="140" id="O8h-Mu-OF2"/>
+                            <constraint firstItem="xcN-o4-Bge" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="159" id="w3R-1e-uSr"/>
                         </constraints>
                     </view>
                 </viewController>
